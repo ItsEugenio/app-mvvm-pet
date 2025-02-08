@@ -1,8 +1,10 @@
 package com.example.mvvmuni.ui.homepet.ui.screen
 
 import android.app.ProgressDialog.show
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,7 +22,11 @@ import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pets
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.mvvmuni.MainActivity
+import com.example.mvvmuni.ui.countersteps.representation.screen.HomeCounterStepsScreen
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,12 +71,19 @@ fun PetListScreen(viewModel: PetViewModel) {
                     items(pets) { pet ->
                         PetCard(pet)
                     }
+
                 }
             }
         }
     }
 }
 
+@Composable
+fun Hola(){
+    Text(
+        text = "hola"
+    )
+}
 
 @Composable
 fun PetCard(pet: Pet) {
@@ -109,9 +122,27 @@ fun PetCard(pet: Pet) {
                 }
                 Text(text = "Tipo: ${pet.typePet}", fontSize = 20.sp)
                 Text(text = "Rango: ${pet.rangePet}", fontSize = 20.sp)
+                MoveToHomeCounter(Modifier.align(Alignment.End), petName = pet.namePet)
             }
         }
     }
+}
+
+@Composable
+fun MoveToHomeCounter(modifier: Modifier, petName: String) {
+    val context = LocalContext.current
+    Text(
+        text = "Ir a Home Counter Steps",
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.Blue,
+        modifier = modifier.clickable {
+            val intent = Intent(context, HomeCounterStepsScreen::class.java).apply {
+                putExtra("PET_NAME", petName) // Enviar el valor como Extra
+            }
+            context.startActivity(intent)
+        }
+    )
 }
 
 
@@ -211,6 +242,10 @@ fun MyDialog(
         })
     }
 }
+
+
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 

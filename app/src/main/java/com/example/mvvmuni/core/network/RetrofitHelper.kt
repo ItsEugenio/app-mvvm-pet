@@ -5,12 +5,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.example.mvvmuni.ui.login.data.datasource.LoginService
 import com.example.mvvmuni.ui.homepet.data.datasource.PetApiService
 import com.example.mvvmuni.ui.register.data.datasource.RegisterApiService
+import com.example.mvvmuni.ui.countersteps.data.datasource.CounterStepsApiService
 
 
 object RetrofitHelper {
     private const val BASE_URL = "https://apipets.onrender.com/api/"
 
     private const val BASE_URL_PET = "https://apipets.onrender.com/api/"
+
+    private const val BASE_URL_STEPS = "https://apipets.onrender.com/api/"
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
@@ -26,6 +29,13 @@ object RetrofitHelper {
             .build()
     }
 
+    private val retrofitSteps : Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL_STEPS)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
     val loginService: LoginService by lazy{
         retrofit.create(LoginService::class.java)
     }
@@ -36,5 +46,9 @@ object RetrofitHelper {
 
     val registerService: RegisterApiService by lazy {
         retrofit.create(RegisterApiService::class.java)
+    }
+
+    val registerCounterStepsService: CounterStepsApiService by lazy {
+        retrofitSteps.create(CounterStepsApiService::class.java)
     }
 }
